@@ -265,6 +265,8 @@ public class PrinterService {
             boolean h1 = line.contains("{H1}");
             boolean h2 = line.contains("{H2}");
             boolean h3 = line.contains("{H3}");
+            boolean lsxs = line.contains("{LS:XS}");
+            boolean lss = line.contains("{LS:S}");
             boolean lsm = line.contains("{LS:M}");
             boolean lsl = line.contains("{LS:L}");
             boolean ct = line.contains("{C}");
@@ -279,6 +281,7 @@ public class PrinterService {
             byte[] TXT_4SQUARE_NEW = new byte[] { 0x1d, '!', 0x11 };
             byte[] TXT_2HEIGHT_NEW = new byte[] { 0x1d, '!', 0x01 };
             byte[] TXT_2WIDTH_NEW = new byte[] { 0x1d, '!', 0x10 };
+            byte[] LINE_SPACE_10 = new byte[] { 0x1b, 0x33, 10 };
             byte[] LINE_SPACE_68 = new byte[] { 0x1b, 0x33, 68 };
             byte[] LINE_SPACE_88 = new byte[] { 0x1b, 0x33, 120 };
             byte[] DEFAULT_LINE_SPACE = new byte[] { 0x1b, 50 };
@@ -317,6 +320,12 @@ public class PrinterService {
             } else if (lsl) {
                 baos.write(LINE_SPACE_30);
                 line = line.replace("{LS:L}", "");
+            } else if (lss) {
+                baos.write(LINE_SPACE_17);
+                line = line.replace("{LS:S}", "");
+            } else if (lsxs) {
+                baos.write(LINE_SPACE_10);
+                line = line.replace("{LS:XS}", "");
             }
             if (ct) {
                 baos.write(TXT_ALIGN_CT);
