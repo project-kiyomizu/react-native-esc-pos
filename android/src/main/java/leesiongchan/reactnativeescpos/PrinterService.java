@@ -265,6 +265,7 @@ public class PrinterService {
             boolean h1 = line.contains("{H1}");
             boolean h2 = line.contains("{H2}");
             boolean h3 = line.contains("{H3}");
+            boolean h1big = line.contains("{H1BIG}");
             boolean lsxs = line.contains("{LS:XS}");
             boolean lss = line.contains("{LS:S}");
             boolean lsm = line.contains("{LS:M}");
@@ -281,6 +282,7 @@ public class PrinterService {
             byte[] TXT_4SQUARE_NEW = new byte[] { 0x1d, '!', 0x11 };
             byte[] TXT_2HEIGHT_NEW = new byte[] { 0x1d, '!', 0x01 };
             byte[] TXT_2WIDTH_NEW = new byte[] { 0x1d, '!', 0x10 };
+            byte[] TXT_40SQUARE_NEW = new byte[] { 0x1d, 0x21, 0x22 };
             byte[] LINE_SPACE_10 = new byte[] { 0x1b, 0x33, 10 };
             byte[] LINE_SPACE_68 = new byte[] { 0x1b, 0x33, 68 };
             byte[] LINE_SPACE_88 = new byte[] { 0x1b, 0x33, 120 };
@@ -313,15 +315,18 @@ public class PrinterService {
                 // baos.write(LINE_SPACE_68);
                 line = line.replace("{H3}", "");
                 charsOnLine = charsOnLine / 2;
+            } else if (h1big) {
+                baos.write(TXT_40SQUARE_NEW);
+                line = line.replace("{H1BIG}", "");
             }
             if (lsm) {
-                baos.write(LINE_SPACE_24);
+                baos.write(LINE_SPACE_68);
                 line = line.replace("{LS:M}", "");
             } else if (lsl) {
-                baos.write(LINE_SPACE_30);
+                baos.write(LINE_SPACE_88);
                 line = line.replace("{LS:L}", "");
             } else if (lss) {
-                baos.write(LINE_SPACE_17);
+                baos.write(LINE_SPACE_24);
                 line = line.replace("{LS:S}", "");
             } else if (lsxs) {
                 baos.write(LINE_SPACE_10);
@@ -361,7 +366,7 @@ public class PrinterService {
             if (underline) {
                 baos.write(TXT_UNDERL_OFF);
             }
-            if (h1 || h2 || h3) {
+            if (h1 || h2 || h3 || h1big) {
                 baos.write(DEFAULT_LINE_SPACE);
                 baos.write(TXT_NORMAL_NEW);
             }
