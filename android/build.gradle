@@ -120,8 +120,7 @@ afterEvaluate { project ->
         configuration = configurations.archives
         maven {
             url = uri("file://${projectDir}/../android/maven")
-                configureReactNativePom pom
-            }
+            configureReactNativePom pom
         }
     }
 }
